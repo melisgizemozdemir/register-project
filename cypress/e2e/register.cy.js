@@ -5,53 +5,63 @@ beforeEach(() => {
 });
 
 describe('Register Page', () => {
-  describe('Error Page', () => {
-  it('name input throws error for 2 chars', () => {
 
-    //Act
-    cy.get('[data-cy = "ad-input"]').type('em');
-    //Assert
-    cy.contains(errorMessages.ad);
+  describe('Error Messages', () => {
 
+    it('Name throws error for 2 chars', () => {
+      cy.get('[data-cy = "ad-input"]').type('me');
+      cy.contains(errorMessages.ad);
+    });
 
-  });
+    it('Surname throws error for 2 chars', () => {
+      cy.get('[data-cy = "soyad-input"]').type('oz');
+      cy.contains(errorMessages.soyad);
+    });
 
-  it('Surname input throws error for 2 chars', () => {
+    it('Email input throws error for melis@wit.', () => {
+      cy.get('[data-cy = "email-input"]').type('melis@wit.');
+      cy.contains(errorMessages.email);
+    });
 
-    //Act
-    cy.get('[data-cy = "soyad-input"]').type('sa');
+    it('Password input throws error for 1234', () => {
+      cy.get('[data-cy = "password-input"]').type('1234');
+      cy.contains(errorMessages.password);
+    });
 
-    //Assert
-    cy.contains(errorMessages.soyad);
-  });
-
-  it('Email input throws error for 2 chars', () => {
-
-    //Act
-    cy.get('[data-cy = "email-input"]').type('mre@wit.');
-
-    //Assert
-    cy.contains(errorMessages.email);
-  });
-
-  it('Password input throws error for 2 chars', () => {
-
-    //Act
-    cy.get('[data-cy = "password-input"]').type('1234');
-    //Assert
-    cy.contains(errorMessages.password);
-
+    it('Button is disabled for unvalidated inputs.', () => {
+      cy.get('[data-cy = "password-input"]').type('1234');
+      cy.get('[data-cy = "submit-button"]').should('be.disabled');
+    });
 
   });
 
-  it('Button is disabled for unvalidated inputs.', () => {
+  describe('Button enabled for validated inputs', () => {
 
-    //Act
-    cy.get('[data-cy = "password-input"]').type('1234');
-    //Assert
-    cy.get('[data-cy = "submit-button"]').should('be.disabled');
+    it.only('button enabled', () => {
+      cy.get('[data-cy = "ad-input"]').type('Melis');
+      cy.get('[data-cy = "soyad-input"]').type('Ozdemir');
+      cy.get('[data-cy = "email-input"]').type('melis@wit.com.tr');
+      cy.get('[data-cy = "password-input"]').type('1234Aa**');
+      cy.get('[data-cy = "submit-button"]').should('not.be.disabled');
+    });
+
+  });
+
+  it.only('Submits form on validated inputs', () => {
+      cy.get('[data-cy = "ad-input"]').type('Melis');
+      cy.get('[data-cy = "soyad-input"]').type('Ozdemir');
+      cy.get('[data-cy = "email-input"]').type('melis@wit.com.tr');
+      cy.get('[data-cy = "password-input"]').type('1234Aa**');
+      cy.get('[data-cy = "submit-button"]').click();
+      
+      cy.get('[data-cy = "response-message"]').should('be.visible');
+
   });
 
 });
 
-});
+
+
+ 
+
+

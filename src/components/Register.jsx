@@ -185,9 +185,9 @@ export default function Register (){
 
 </CardBody>
 
-<CardFooter>
+{id && <CardFooter data-cy="response-message">
     ID: {id}
-</CardFooter>
+</CardFooter>}
 
 </Card> 
         
